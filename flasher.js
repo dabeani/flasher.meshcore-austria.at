@@ -4,6 +4,9 @@ import { Dfu } from "./lib/dfu.js";
 import { ESPLoader, Transport, HardReset } from "./lib/esp32.js";
 import { SerialConsole } from './lib/console.js';
 
+// Compute base path once at startup from the script's own URL — works at any subdirectory depth
+const basePath = new URL('./', import.meta.url).pathname;
+
 const searchParams = new URLSearchParams(location.search);
 const configName = searchParams.get('config')?.replaceAll(/[^a-z_-]/g, '') ?? 'config';
 const configRes = await fetch(`./${configName}.json`);
@@ -304,9 +307,9 @@ function setup() {
   let initializingFromUrl = false;
 
   const buildUrl = () => {
-    if (serialCon.opened) return '/console';
-    if (!selected.device) return '/';
-    let path = '/' + deviceToSlug(selected.device) + '/';
+    if (serialCon.opened) return basePath + 'console';
+    if (!selected.device) return basePath;
+    let path = basePath + deviceToSlug(selected.device) + '/';
     if (!selected.firmware) return path;
     path += firmwareToSlug(selected.firmware) + '/';
     if (selected.version) path += toSlug(selected.version);
@@ -323,6 +326,8 @@ function setup() {
 
   const applyUrlPath = (path) => {
     initializingFromUrl = true;
+    // Strip the deployment base path before parsing segments
+    if (path.startsWith(basePath)) path = path.slice(basePath.length);
     const segments = path.replace(/^\/|\/$/g, '').split('/').filter(Boolean);
 
     if (segments.length === 0 || segments[0] === 'console') {
@@ -503,7 +508,7 @@ function setup() {
       return;
     }
 
-    const url = `${config.staticPath}/${selected.device.erase}`;
+    const url = location.origin + basePath + `${config.staticPath}/${selected.device.erase}`;
 
     console.log('downloading: ' + url);
     const resp = await fetch(url);
