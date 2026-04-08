@@ -275,7 +275,7 @@
           <nav>
             <i>bolt</i>
             <h5 class="small max logo-top">
-              <img src="https://www.meshcore-austria.at/lib/exe/fetch.php?media=logo.png" alt="MeshCore Austria" onerror="this.src='./img/meshcore.svg'"> <span>Austria Flasher</span>
+              <img src="https://www.meshcore-austria.at/lib/exe/fetch.php?media=logo.png" alt="MeshCore Austria" :onerror="`this.src='${basePath}img/meshcore.svg'`"> <span>Austria Flasher</span>
             </h5>
             <button class="transparent hide-mobile" @click="openSerialGUI()">
               <i>manufacturing</i>
@@ -322,7 +322,7 @@
                 <li v-for="device in deviceGroup">
                   <template v-if="device.firmware.length > 0">
                     <button class="device-select transparent" @click="selected.device = device">
-                      <img class="icon" :title="device.type" :src="`./img/${device.type}.svg`" v-if="device.type !== 'noflash'">
+                      <img class="icon" :title="device.type" :src="basePath + 'img/' + device.type + '.svg'" v-if="device.type !== 'noflash'">
                       <i v-else>developer_board</i>
                       <span>{{ device.name }}</span>
                       <div class="tooltip right max" v-if="device.tooltip" v-html="device.tooltip"></div>

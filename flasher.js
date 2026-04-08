@@ -842,7 +842,8 @@ function setup() {
     customFirmwareLoad, getFirmwarePath,
     getSelFwValue, getRoleFwValue, getNotice, formatChangeLog,
     firmwareHasData, isRepeaterRole,
-    canFlash, nrfErase
+    canFlash, nrfErase,
+    basePath
   }
 }
 
