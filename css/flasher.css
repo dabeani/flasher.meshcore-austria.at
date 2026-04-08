@@ -1,0 +1,210 @@
+[v-cloak] {
+  display: none;
+}
+
+body {
+  display: flex;
+  height: 100vh;
+}
+
+body:has([v-cloak]):after {
+  content: '';
+  position: absolute;
+  top: calc(50% - 50px);
+  left: calc(50% - 50px);
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 8px solid #f0f0f0;
+  animation:
+    l20-1 0.8s infinite linear alternate,
+    l20-2 1.6s infinite linear;
+}
+@keyframes l20-1{
+   0%    {clip-path: polygon(50% 50%,0       0,  50%   0%,  50%    0%, 50%    0%, 50%    0%, 50%    0% )}
+   12.5% {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100%   0%, 100%   0%, 100%   0% )}
+   25%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 100% 100%, 100% 100% )}
+   50%   {clip-path: polygon(50% 50%,0       0,  50%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
+   62.5% {clip-path: polygon(50% 50%,100%    0, 100%   0%,  100%   0%, 100% 100%, 50%  100%, 0%   100% )}
+   75%   {clip-path: polygon(50% 50%,100% 100%, 100% 100%,  100% 100%, 100% 100%, 50%  100%, 0%   100% )}
+   100%  {clip-path: polygon(50% 50%,50%  100%,  50% 100%,   50% 100%,  50% 100%, 50%  100%, 0%   100% )}
+}
+@keyframes l20-2{
+  0%    {transform:scaleY(1)  rotate(0deg)}
+  49.99%{transform:scaleY(1)  rotate(135deg)}
+  50%   {transform:scaleY(-1) rotate(0deg)}
+  100%  {transform:scaleY(-1) rotate(-135deg)}
+}
+
+#app {
+  flex-grow: 1;
+}
+
+#app h5.logo-top img {
+  height: 16px;
+  margin-top: -4px;
+}
+
+#app h5.logo-top span {
+  font-style: italic; font-weight: bold; line-height: 0.9
+}
+
+#app select {
+  cursor: pointer
+}
+#app .tooltip:has(>.device) {
+  background: #f0f0f055;
+  width: auto;
+}
+#app img.device {
+  width: 400px;
+  max-width: 400px;
+  max-height: 400px;
+}
+#app div.autoscroller {
+  overflow: auto;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+#app pre.term {
+  font-family: monospace;
+}
+#app .overlay {
+  display: flex !important;
+  flex-direction: column;
+}
+#app .console {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin: 0;
+}
+#app .console .holder {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+#app .console-input {
+  flex-grow: 1;
+  display: block;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  font-family: monospace;
+  font-size: .875rem;
+}
+#app .console-input:focus, #app console-input:focus{
+  outline: none;
+}
+#app .pre {
+  white-space-collapse: preserve;
+  min-width: 300px;
+}
+#app a {
+  text-decoration: underline;
+}
+
+#app .version {
+  flex-wrap: wrap;
+}
+#app .version div.field {
+  min-width: 140px;
+  align-self: flex-start;
+}
+#app .version .pre {
+  padding-bottom: 10px;
+}
+#app img.icon {
+  height: 20px;
+}
+
+.flash-container {
+  padding-bottom: 150px;
+}
+
+.strong {
+  font-weight: 700;
+}
+
+.text-wrap {
+  text-wrap: auto;
+}
+
+#app .repeater-setup {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+}
+
+#app .repeater-setup .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin: 0.75rem 0;
+}
+
+#app .repeater-setup .error {
+  color: var(--error);
+  margin: 0.5rem 0 0;
+}
+
+#app .provisioning-commands {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: var(--scrim);
+  border-radius: 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+#app .command-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-family: monospace;
+  opacity: 0.6;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+#app .command-item.active {
+  opacity: 1;
+  background-color: var(--outline-variant);
+}
+
+#app .command-item.complete {
+  opacity: 0.8;
+  color: var(--primary);
+}
+
+#app .command-status {
+  display: flex;
+  align-items: center;
+  min-width: 24px;
+  color: inherit;
+}
+
+#app .command-status i {
+  font-size: 1.25rem;
+}
+
+#app .command-text {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#app .provisioning-log {
+  color: var(--primary);
+  background: var(--scrim);
+  border-top: 1px solid var(--outline-variant);
+  font-size: 0.75rem;
+}
