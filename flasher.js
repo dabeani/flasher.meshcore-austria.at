@@ -9,8 +9,13 @@ const configName = searchParams.get('config')?.replaceAll(/[^a-z_-]/g, '') ?? 'c
 const configRes = await fetch(`${configName}.json`);
 const config = await configRes.json();
 
-const githubRes = await fetch('releases');
-const github = await githubRes.json();
+let github = [];
+try {
+  const githubRes = await fetch('releases');
+  github = await githubRes.json();
+} catch (e) {
+  console.warn('Failed to fetch releases:', e);
+}
 
 const commandReference  = {
   'time ': 'Set time {epoch-secs}',
