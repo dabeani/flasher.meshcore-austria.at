@@ -30,7 +30,8 @@ try {
       notes: release.body || '',
       files: (release.assets || []).map(asset => ({
         name: asset.name,
-        url: asset.browser_download_url,
+        // Use the API asset endpoint — it has CORS headers unlike browser_download_url (github.com)
+        url: `https://api.github.com/repos/meshcore-dev/MeshCore/releases/assets/${asset.id}`,
       })),
     }];
   });
@@ -691,7 +692,8 @@ function setup() {
 
       const url = getFirmwarePath(flashFile);
       console.log('downloading: ' + url);
-      const resp = await fetch(url);
+      const fetchOpts = url.includes('api.github.com') ? { headers: { Accept: 'application/octet-stream' } } : {};
+      const resp = await fetch(url, fetchOpts);
       if(resp.status !== 200) {
         alert(`Could not download the firmware file from the server, reported: HTTP ${resp.status}.\nPlease try again.`)
         return;
