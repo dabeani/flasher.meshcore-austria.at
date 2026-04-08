@@ -282,9 +282,19 @@ function setup() {
     location.reload()
   }
 
+  const resolveFirmwareUrl = (fileName) => {
+    const staticPath = config.staticPath.replace(/\/$/, '');
+    return new URL(`${staticPath}/${fileName}`, import.meta.url).href;
+  }
+
   const getFirmwarePath = (file) => {
     if (file.name.startsWith('http') || file.name.startsWith('/')) return file.name;
-    return `${config.staticPath}/${file.name}`;
+    return resolveFirmwareUrl(file.name);
+  }
+
+  const getMirroredFirmwarePath = (file) => {
+    const fileName = file.title || file.name.split('/').pop().split('?')[0];
+    return resolveFirmwareUrl(fileName);
   }
 
   const firmwareHasData = (firmware) => {
@@ -525,7 +535,7 @@ function setup() {
       return;
     }
 
-    const url = location.origin + basePath + `${config.staticPath}/${selected.device.erase}`;
+    const url = resolveFirmwareUrl(selected.device.erase);
 
     console.log('downloading: ' + url);
     const resp = await fetch(url);
@@ -690,17 +700,32 @@ function setup() {
       console.log({flashFiles, flashFile});
 
       const rawUrl = getFirmwarePath(flashFile);
-      // GitHub release asset URLs don't send CORS headers — proxy through corsproxy.io
+      const mirroredUrl = getMirroredFirmwarePath(flashFile);
       const isGithubUrl = rawUrl.includes('github.com') || rawUrl.includes('githubusercontent.com');
-      const url = isGithubUrl ? `https://corsproxy.io/?url=${encodeURIComponent(rawUrl)}` : rawUrl;
       console.log('downloading: ' + rawUrl);
-      const resp = await fetch(url);
-      if(resp.status !== 200) {
-        alert(`Could not download the firmware file from the server, reported: HTTP ${resp.status}.\nPlease try again.`)
+
+      let resp;
+      try {
+        if(isGithubUrl) {
+          console.log('trying same-origin firmware mirror: ' + mirroredUrl);
+          resp = await fetch(mirroredUrl);
+          if(resp.status !== 200) {
+            throw new Error(`Firmware mirror not found at ${mirroredUrl}. This static flasher cannot fetch GitHub release assets directly because the browser blocks cross-origin binary downloads. Host the firmware file on the same origin under ${config.staticPath}/ or add a backend /releases proxy like upstream.`);
+          }
+        }
+        else {
+          resp = await fetch(rawUrl);
+          if(resp.status !== 200) {
+            throw new Error(`Could not download the firmware file from ${rawUrl}, reported HTTP ${resp.status}.`);
+          }
+        }
+
+        flashData = await resp.blob();
+      } catch(e) {
+        flashing.error = e.message || String(e);
+        showMessage('Firmware download failed', 'error', 5000);
         return;
       }
-
-      flashData = await resp.blob();
     }
 
     const port = selected.port = await navigator.serial.requestPort({});
