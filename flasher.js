@@ -279,7 +279,8 @@ function setup() {
   }
 
   const getFirmwarePath = (file) => {
-    return file.name.startsWith('/') ? file.name : `${config.staticPath}/${file.name}`;
+    if (file.name.startsWith('http') || file.name.startsWith('/')) return file.name;
+    return `${config.staticPath}/${file.name}`;
   }
 
   const firmwareHasData = (firmware) => {
