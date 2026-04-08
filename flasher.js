@@ -10,7 +10,8 @@ const basePath = new URL('./', import.meta.url).pathname;
 const searchParams = new URLSearchParams(location.search);
 const configName = searchParams.get('config')?.replaceAll(/[^a-z_-]/g, '') ?? 'config';
 const configRes = await fetch(`./${configName}.json`);
-const config = await configRes.json();
+// Fix absolute /img/ paths in tooltip HTML strings so they resolve correctly at any subdirectory depth
+const config = JSON.parse((await configRes.text()).replaceAll("src='/img/", `src='${basePath}img/`));
 
 let github = [];
 try {
