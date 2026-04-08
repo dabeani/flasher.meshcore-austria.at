@@ -1,5 +1,5 @@
 {
-	"staticPath": "/firmware",
+	"staticPath": "firmware",
 	"role": {
 		"meshos": {
 			"icon": "dashboard",
@@ -39,8 +39,8 @@
 		}
 	},
 	"notice": {
-		"otafixRecommended": "<article class='tertiary-container'>We strongly recommend installing <a target='_blank' href='/firmware/${bootloader}'>OTAFIX bootloader</a> for more reliable Bluetooth OTA DFU. <a target='_blank' href='https://github.com/meshcore-dev/MeshCore/blob/main/docs/faq.md#73-q-is-there-a-way-to-lower-the-chance-of-a-failed-ota-device-firmware-update-dfu'>Read more</a></article>",
-		"otafixNeeded": "<article class='tertiary-container'>WARNING: We strongly recommend installing <a target='_blank' href='/firmware/${bootloader}'>OTAFIX bootloader</a> if you plan to update firmware via OTA bluetooth, as factory bootloader does not support it! <a target='_blank' href='https://github.com/meshcore-dev/MeshCore/blob/main/docs/faq.md#73-q-is-there-a-way-to-lower-the-chance-of-a-failed-ota-device-firmware-update-dfu'>Read more</a></article>"
+		"otafixRecommended": "<article class='tertiary-container'>We strongly recommend installing <a target='_blank' href='firmware/${bootloader}'>OTAFIX bootloader</a> for more reliable Bluetooth OTA DFU. <a target='_blank' href='https://github.com/meshcore-dev/MeshCore/blob/main/docs/faq.md#73-q-is-there-a-way-to-lower-the-chance-of-a-failed-ota-device-firmware-update-dfu'>Read more</a></article>",
+		"otafixNeeded": "<article class='tertiary-container'>WARNING: We strongly recommend installing <a target='_blank' href='firmware/${bootloader}'>OTAFIX bootloader</a> if you plan to update firmware via OTA bluetooth, as factory bootloader does not support it! <a target='_blank' href='https://github.com/meshcore-dev/MeshCore/blob/main/docs/faq.md#73-q-is-there-a-way-to-lower-the-chance-of-a-failed-ota-device-firmware-update-dfu'>Read more</a></article>"
 	},
 	"maker": {
 		"elecrow": {

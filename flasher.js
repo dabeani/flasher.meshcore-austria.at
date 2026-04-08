@@ -1,15 +1,15 @@
-import "/lib/beer.min.js";
-import { createApp, reactive, ref, nextTick, watch, computed } from "/lib/vue.min.js";
-import { Dfu } from "/lib/dfu.js";
-import { ESPLoader, Transport, HardReset } from "/lib/esp32.js";
-import { SerialConsole } from '/lib/console.js';
+import "lib/beer.min.js";
+import { createApp, reactive, ref, nextTick, watch, computed } from "lib/vue.min.js";
+import { Dfu } from "lib/dfu.js";
+import { ESPLoader, Transport, HardReset } from "lib/esp32.js";
+import { SerialConsole } from 'lib/console.js';
 
 const searchParams = new URLSearchParams(location.search);
 const configName = searchParams.get('config')?.replaceAll(/[^a-z_-]/g, '') ?? 'config';
-const configRes = await fetch(`/${configName}.json`);
+const configRes = await fetch(`${configName}.json`);
 const config = await configRes.json();
 
-const githubRes = await fetch('/releases');
+const githubRes = await fetch('releases');
 const github = await githubRes.json();
 
 const commandReference  = {
