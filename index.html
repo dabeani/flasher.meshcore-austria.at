@@ -282,7 +282,7 @@
               <span>Repeater Setup</span>
               <div class="tooltip left max">Open GUI to configure Repeaters and Room servers via USB serial</div>
             </button>
-            <button class="transparent" @click="openSerialCon()">
+            <button class="transparent" @click="openSerialCon()" :disabled="!hasSerial">
               <i>terminal</i>
               <span>Console</span>
               <div class="tooltip left max">Open serial console to manage Routers and Room servers</div>

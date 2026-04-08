@@ -431,22 +431,38 @@ function setup() {
   }
 
   const openSerialCon = async() => {
-    const port = selected.port = await navigator.serial.requestPort();
-    const serialConsole = serialCon.instance = new SerialConsole(port);
+    if (!navigator.serial) {
+      showMessage('Web Serial is not supported in this browser. Use Chrome or Edge.', 'error', 5000);
+      return;
+    }
+    let port;
+    try {
+      port = selected.port = await navigator.serial.requestPort();
+    } catch(e) {
+      if (e.name !== 'NotFoundError' && e.name !== 'AbortError') {
+        showMessage(`Serial port error: ${e.message}`, 'error', 5000);
+      }
+      return;
+    }
+    try {
+      const serialConsole = serialCon.instance = new SerialConsole(port);
 
-    serialCon.content =  '-------------------------------------------------------------------------\n';
-    serialCon.content += 'Welcome to MeshCore serial console.\n'
-    serialCon.content += 'Click on the cursor to get all supported commands.\n';
-    serialCon.content += '-------------------------------------------------------------------------\n\n';
+      serialCon.content =  '-------------------------------------------------------------------------\n';
+      serialCon.content += 'Welcome to MeshCore serial console.\n'
+      serialCon.content += 'Click on the cursor to get all supported commands.\n';
+      serialCon.content += '-------------------------------------------------------------------------\n\n';
 
-    serialConsole.onOutput = (text) => {
-      serialCon.content += text;
-    };
-    serialConsole.connect();
-    serialCon.opened = true;
-    await nextTick();
+      serialConsole.onOutput = (text) => {
+        serialCon.content += text;
+      };
+      serialConsole.connect();
+      serialCon.opened = true;
+      await nextTick();
 
-    consoleEditBox.value.focus();
+      consoleEditBox.value.focus();
+    } catch(e) {
+      showMessage(`Failed to open serial console: ${e.message}`, 'error', 5000);
+    }
   }
 
   const closeSerialCon = async() => {
@@ -843,7 +859,8 @@ function setup() {
     getSelFwValue, getRoleFwValue, getNotice, formatChangeLog,
     firmwareHasData, isRepeaterRole,
     canFlash, nrfErase,
-    basePath
+    basePath,
+    hasSerial: !!navigator?.serial
   }
 }
 
