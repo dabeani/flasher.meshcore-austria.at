@@ -180,6 +180,7 @@
         <article class="repeater-setup border" v-if="isRepeaterRole()">
           <h6>Repeater Setup (before flashing)</h6>
           <p class="small">These settings will be applied automatically after firmware flashing, together with MeshCore-Austria defaults.</p>
+          <form autocomplete="off" @submit.prevent>
           <div class="grid">
             <div class="field label border">
               <input type="text" v-model.trim="repeaterConfig.name" maxlength="48" placeholder=" ">
@@ -207,6 +208,7 @@
             <span>I confirm this repeater configuration and want to flash with MeshCore-Austria defaults.</span>
           </label>
           <p class="small error" v-if="repeaterConfigError">{{ repeaterConfigError }}</p>
+          </form>
         </article>
         <div class="medium-space"></div>
         <nav class="small-margin">
