@@ -9,33 +9,16 @@ const basePath = new URL('./', import.meta.url).pathname;
 
 const searchParams = new URLSearchParams(location.search);
 const configName = searchParams.get('config')?.replaceAll(/[^a-z_-]/g, '') ?? 'config';
-const configRes = await fetch(`./${configName}.json`);
+const configRes = await fetch(new URL(`./${configName}.json`, import.meta.url));
 // Fix absolute /img/ paths in tooltip HTML strings so they resolve correctly at any subdirectory depth
 const config = JSON.parse((await configRes.text()).replaceAll("src='/img/", `src='${basePath}img/`));
 
 let github = [];
 try {
-  const githubRes = await fetch('https://api.github.com/repos/meshcore-dev/MeshCore/releases?per_page=100');
-  const releases = await githubRes.json();
-  // Transform GitHub API format into the shape expected by getGithubReleases():
-  // tag_name format is "<type>-<version>", e.g. "repeater-v1.14.1"
-  github = releases.flatMap(release => {
-    const match = release.tag_name.match(/^(.+?)-(v[\d.]+(?:[-.].+)?)$/);
-    if (!match) return [];
-    const [, type, version] = match;
-    return [{
-      type,
-      version,
-      name: release.name,
-      notes: release.body || '',
-      files: (release.assets || []).map(asset => ({
-        name: asset.name,
-        url: asset.browser_download_url,
-      })),
-    }];
-  });
+  const githubRes = await fetch(new URL('./releases', import.meta.url));
+  github = await githubRes.json();
 } catch (e) {
-  console.warn('Failed to fetch releases from GitHub:', e);
+  console.warn('Failed to fetch releases metadata:', e);
 }
 
 const commandReference  = {
