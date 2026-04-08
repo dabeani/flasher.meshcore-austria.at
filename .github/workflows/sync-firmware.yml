@@ -1,0 +1,50 @@
+name: Sync Firmware Mirror
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_versions_per_type:
+        description: Number of versions to keep per role type
+        required: false
+        default: '1'
+  repository_dispatch:
+    types:
+      - sync-firmware
+  schedule:
+    - cron: '23 */6 * * *'
+
+concurrency:
+  group: firmware-sync
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Sync releases and firmware
+        env:
+          MAX_VERSIONS_PER_TYPE: ${{ github.event.inputs.max_versions_per_type || github.event.client_payload.max_versions_per_type || '1' }}
+        run: node scripts/sync-firmware.mjs
+
+      - name: Commit changes
+        run: |
+          if [[ -z "$(git status --porcelain)" ]]; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add releases firmware
+          git commit -m "Sync firmware mirror"
+          git push

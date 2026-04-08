@@ -12,9 +12,9 @@ A fork of the upstream [meshcore-dev/flasher.meshcore.io](https://github.com/mes
 
 1. **Keep in sync with upstream assets** — `css/beer.css`, `img/`, `lib/` (vue.min.js, beer.min.js, dfu.js, esp32.js, console.js, iframeResizer.contentWindow.min.js, zip.min.js) and `config.json` must always reflect the latest upstream versions. The Austria-specific app files (`index.html`, `flasher.js`, `css/flasher.css`) must NOT be overwritten wholesale; merge upstream changes carefully.
 
-2. **All devices and firmware visible** — Upstream relies on a backend `/releases` endpoint. This fork replaces that with a direct fetch from `https://api.github.com/repos/meshcore-dev/MeshCore/releases`. All device roles (companion, repeater, room-server, etc.) must be available just as they are at https://meshcore.co.uk/flasher.html.
+2. **All devices and firmware visible** — Upstream relies on a backend `/releases` endpoint. This fork now generates a same-origin static `releases` file and mirrors firmware assets into a local `firmware/` directory so the frontend can download binaries without browser CORS failures. All device roles (companion, repeater, room-server, etc.) must be available just as they are at https://meshcore.co.uk/flasher.html.
 
-3. **Path-independent deployment** — The site is served from a subdirectory (`/flasher/`), not the root. All asset references must use relative `./` paths, never absolute `/` paths. This applies to: ES module imports, HTML `<link>`/`<script>` tags, `fetch()` calls for config/releases, and `config.json` `staticPath`.
+3. **Path-independent deployment** — The site is served from a subdirectory (`/flasher/`), not the root. All asset references must use relative `./` paths, never absolute `/` paths. This applies to: ES module imports, HTML `<link>`/`<script>` tags, `fetch()` calls for config/releases, and `config.json` `staticPath`. Firmware must resolve under `./firmware/` inside this repo.
 
 4. **Austria-specific repeater provisioning** — After flashing a repeater, the flasher automatically applies a set of provisioning commands via USB serial (node name, admin password, TX power, GPS coordinates, and hardcoded MeshCore-Austria radio defaults). This flow is triggered by the "Repeater" role and must be preserved.
 
@@ -46,6 +46,8 @@ A fork of the upstream [meshcore-dev/flasher.meshcore.io](https://github.com/mes
 - **Do not add docstrings, comments, or type annotations** to code you didn't change.
 - **Do not over-engineer** — only make changes that are directly requested or clearly necessary.
 - **Always use `./` relative paths** for everything (imports, fetch, HTML attributes). Never use absolute `/` paths.
+- **Keep `releases` and `firmware/` in sync** — if release metadata is refreshed, the mirrored firmware files must be refreshed too.
+- **Prefer the built-in sync workflow triggers** — scheduled sync keeps firmware current, and user-triggered web requests should use the GitHub Actions `repository_dispatch` event (`sync-firmware`) rather than adding ad-hoc browser-side sync logic.
 - **commit and push after changes** are verified — the user deploys via GitHub Pages from the `main` branch.
 
 ---
@@ -56,7 +58,7 @@ A fork of the upstream [meshcore-dev/flasher.meshcore.io](https://github.com/mes
 - **Live URL:** https://meshcore-austria.at/flasher/
 - **Branch:** `main`
 - **Hosting:** Static files served from a subdirectory — no Node.js backend, no `/releases` server endpoint.
-- **Firmware files** are served separately from `/firmware/` (not part of this repo).
+- **Firmware files** are mirrored into `firmware/` in this repo and served from the same origin as the flasher.
 
 ---
 
