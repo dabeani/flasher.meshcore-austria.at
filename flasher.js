@@ -11,10 +11,27 @@ const config = await configRes.json();
 
 let github = [];
 try {
-  const githubRes = await fetch('./releases');
-  github = await githubRes.json();
+  const githubRes = await fetch('https://api.github.com/repos/meshcore-dev/MeshCore/releases?per_page=100');
+  const releases = await githubRes.json();
+  // Transform GitHub API format into the shape expected by getGithubReleases():
+  // tag_name format is "<type>-<version>", e.g. "repeater-v1.14.1"
+  github = releases.flatMap(release => {
+    const match = release.tag_name.match(/^(.+?)-(v[\d.]+(?:[-.].+)?)$/);
+    if (!match) return [];
+    const [, type, version] = match;
+    return [{
+      type,
+      version,
+      name: release.name,
+      notes: release.body || '',
+      files: (release.assets || []).map(asset => ({
+        name: asset.name,
+        url: asset.browser_download_url,
+      })),
+    }];
+  });
 } catch (e) {
-  console.warn('Failed to fetch releases:', e);
+  console.warn('Failed to fetch releases from GitHub:', e);
 }
 
 const commandReference  = {
