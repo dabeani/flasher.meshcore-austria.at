@@ -39,6 +39,18 @@ A fork of the upstream [meshcore-dev/flasher.meshcore.io](https://github.com/mes
 
 ---
 
+## Firmware Sync Automation
+
+- **`releases`** — same-origin static release index consumed by the frontend.
+- **`firmware/`** — mirrored firmware binaries served directly by GitHub Pages from this repo.
+- **`scripts/update-releases.mjs`** — pulls MeshCore GitHub releases metadata and generates the local `releases` file format.
+- **`scripts/sync-firmware.mjs`** — downloads mirrored firmware assets into `firmware/`, removes stale files, and rewrites `releases`.
+- **`.github/workflows/sync-firmware.yml`** — scheduled and on-demand sync workflow.
+- **Default retention policy** — keep the latest version per role type (`MAX_VERSIONS_PER_TYPE=1`) unless explicitly changed.
+- **On-demand sync trigger** — use GitHub `repository_dispatch` with event type `sync-firmware`.
+
+---
+
 ## Constraints for AI Agents
 
 - **Do not upload firmware to devices or use a serial monitor.** This project is build/deploy only; the user flashes manually.
