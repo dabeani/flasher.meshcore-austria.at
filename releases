@@ -3,7 +3,7 @@
     "type": "room-server",
     "version": "v1.15.0",
     "name": "Room Server Firmware v1.15.0",
-    "notes": "Release notes: https://blog.meshcore.io/2026/04/19/release-1-15-0",
+    "notes": "https://blog.meshcore.io/2026/04/19/release-1-15-0\r\n\r\n- Default Scope support\r\n- Support for New GROUP_DATA (binary) packets #1928 #2130\r\n- Heltec V4.3 support #1867\r\n- Heltec nRF Tracker (T096) support #2097\r\n- GAT562 Mesh EVB Pro repeater and room server support #2042\r\n- Radio rxgain now ON by default #2124\r\n- Radio freq range now supported down to 150Mhz #2126\r\n- GPS pref peristence fix #2018\r\n- New get|set dutycycle CLI command #1961\r\n- Muzi Works R1 Neo support #2007\r\n- GAT562 Watch support #2138 #2228\r\n- BME680 sensor init fix #2227\r\n- Heltec Wireless Paper battery read fix #2164\r\n- WiFi companion fixes for Heltec V4,TBeam 1W #1833\r\n- Waveshare RP2040: RXEN fix #2298\r\n- nRF companion, support for OTA updates #2323\r\n- Added companion for Heltec Wireless Paper #2315\r\n- Misc #2134 #2190 #1425 #2075 #2302 #2306\r\n- Xiao C3 bootloop fix #2328",
     "files": [
       {
         "name": "Ebyte_EoRa-S3_room_server-v1.15.0-dee3e26-merged.bin",
@@ -749,7 +749,7 @@
     "type": "repeater",
     "version": "v1.15.0",
     "name": "Repeater Firmware v1.15.0",
-    "notes": "Release notes: https://blog.meshcore.io/2026/04/19/release-1-15-0",
+    "notes": "https://blog.meshcore.io/2026/04/19/release-1-15-0\r\n\r\n- Default Scope support\r\n- Support for New GROUP_DATA (binary) packets #1928 #2130\r\n- Heltec V4.3 support #1867\r\n- Heltec nRF Tracker (T096) support #2097\r\n- GAT562 Mesh EVB Pro repeater and room server support #2042\r\n- Radio rxgain now ON by default #2124\r\n- Radio freq range now supported down to 150Mhz #2126\r\n- GPS pref peristence fix #2018\r\n- New get|set dutycycle CLI command #1961\r\n- Muzi Works R1 Neo support #2007\r\n- GAT562 Watch support #2138 #2228\r\n- BME680 sensor init fix #2227\r\n- Heltec Wireless Paper battery read fix #2164\r\n- WiFi companion fixes for Heltec V4,TBeam 1W #1833\r\n- Waveshare RP2040: RXEN fix #2298\r\n- nRF companion, support for OTA updates #2323\r\n- Added companion for Heltec Wireless Paper #2315\r\n- Misc #2134 #2190 #1425 #2075 #2302 #2306\r\n- Xiao C3 bootloop fix #2328",
     "files": [
       {
         "name": "Ebyte_EoRa-S3_Repeater-v1.15.0-dee3e26-merged.bin",
@@ -1603,7 +1603,7 @@
     "type": "companion",
     "version": "v1.15.0",
     "name": "Companion Firmware v1.15.0",
-    "notes": "Release notes: https://blog.meshcore.io/2026/04/19/release-1-15-0",
+    "notes": "https://blog.meshcore.io/2026/04/19/release-1-15-0\r\n\r\n- Default Scope support\r\n- Support for New GROUP_DATA (binary) packets #1928 #2130\r\n- Heltec V4.3 support #1867\r\n- Heltec nRF Tracker (T096) support #2097\r\n- GAT562 Mesh EVB Pro repeater and room server support #2042\r\n- Radio rxgain now ON by default #2124\r\n- Radio freq range now supported down to 150Mhz #2126\r\n- GPS pref peristence fix #2018\r\n- New get|set dutycycle CLI command #1961\r\n- Muzi Works R1 Neo support #2007\r\n- GAT562 Watch support #2138 #2228\r\n- BME680 sensor init fix #2227\r\n- Heltec Wireless Paper battery read fix #2164\r\n- WiFi companion fixes for Heltec V4,TBeam 1W #1833\r\n- Waveshare RP2040: RXEN fix #2298\r\n- nRF companion, support for OTA updates #2323\r\n- Added companion for Heltec Wireless Paper #2315\r\n- Misc #2134 #2190 #1425 #2075 #2302 #2306\r\n- Xiao C3 bootloop fix #2328",
     "files": [
       {
         "name": "Ebyte_EoRa-S3_companion_radio_ble-v1.15.0-dee3e26-merged.bin",
